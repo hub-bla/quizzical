@@ -39,3 +39,19 @@
 .user-answer{
     background-color: #D6DBF5;
 }
+
+
+.correct{
+    background-color: #94D7A2;
+    border: none;
+}
+
+.incorrect{
+    opacity: 0.5;
+    background-color: #F8BCBC;
+    border: none;
+}
+
+.other{
+    opacity: 0.5;
+}

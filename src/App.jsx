@@ -9,19 +9,16 @@ function App() {
   const [questionsData, setQuestionsData] = useState([])
   const [isOver, setIsOver] = useState(false)
   const [counter, setCounter] = useState(0)
+  const [toggle, setToggle] = useState(false)
 
   function start(){
     setCounter(0)
     setIsStarted(true)
+    setIsOver(false)
+    setToggle(!toggle)
   }
 
-  //only counting correct answers
-
-  //todo
-  //after submit make elements in diffrent color depend of their value
-  //if user chose incorrect mark it red
-  //correct answer should always be green
-  //the rest gray
+  
   function end(){
     setIsOver(true)
     const correct = questionsData.filter(questionData =>{
@@ -52,7 +49,7 @@ function App() {
           }
         }))
       })
-  }, [])
+  }, [toggle])
 
   function shuffle(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -99,8 +96,15 @@ function App() {
       {isStarted ?
       <div className='quiz'>
         {questions}
+        {!isOver ? 
         <button className='check' onClick={end}>Check answer</button>
-        You scored {counter} of 5
+         :
+         <div className='summary'>
+            <div className='score'>You scored {counter} of 5</div>
+            <button className='check' onClick={start}>Play again</button>
+         </div>
+        }
+        
       </div>
       :
       <div className='welcome-page'>
