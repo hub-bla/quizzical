@@ -1,0 +1,30 @@
+
+.welcome-page{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.title{
+    font-size: clamp(1em, 12vw, 4em);
+    margin: 30px;
+}
+
+.start-button{
+    height: 52px;
+    width: clamp(100px, 50vw, 200px);
+}
+
+
+.quiz{
+    width: clamp(300px, 40vw, 1000px);
+    display: flex;
+    flex-direction: column;
+}
+
+.check{
+    padding: 5px 0;
+    width: clamp(100px, 10vw, 200px);
+    margin: 20px auto;
+}
