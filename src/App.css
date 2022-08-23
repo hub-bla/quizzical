@@ -28,3 +28,15 @@
     width: clamp(100px, 10vw, 200px);
     margin: 20px auto;
 }
+
+.correct{
+    background-color: green;
+}
+
+.incorrect{
+    background-color: red;
+}
+
+.other{
+    background-color: gray;
+}

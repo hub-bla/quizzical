@@ -7,8 +7,31 @@ import './App.css'
 function App() {
   const [isStarted, setIsStarted] = useState(false)
   const [questionsData, setQuestionsData] = useState([])
+  const [isOver, setIsOver] = useState(false)
+  const [counter, setCounter] = useState(0)
+
   function start(){
+    setCounter(0)
     setIsStarted(true)
+  }
+
+  //only counting correct answers
+
+  //todo
+  //after submit make elements in diffrent color depend of their value
+  //if user chose incorrect mark it red
+  //correct answer should always be green
+  //the rest gray
+  function end(){
+    setIsOver(true)
+    const correct = questionsData.filter(questionData =>{
+      const {isCorrect} = questionData
+      console.log(isCorrect)
+      if (isCorrect){
+        return isCorrect
+      }
+    })
+    setCounter(correct.length)
   }
 
   useEffect(() =>{
@@ -23,38 +46,52 @@ function App() {
             id: nanoid(),
             correct_answer: decode(q.correct_answer),
             incorrect_answers: q.incorrect_answers.map(inAns => decode(inAns)),
-            userAnswer: ''
+            userAnswer: '',
+            isCorrect: false,
+            answers: shuffle([q.correct_answer, ...q.incorrect_answers])
           }
         }))
       })
   }, [])
 
+  function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array
+  }
   
   function handleClick(event, questionId){
     const userAnswer = event.target.innerText
     setQuestionsData(prevQuestionsData => {
       return prevQuestionsData.map(questionData => {
-        if ((userAnswer === questionData.correct_answer || questionData.incorrect_answers.includes(userAnswer))
-        &&
-        questionData.id === questionId){
-          return {...questionData, userAnswer: userAnswer}
+        if(questionData.id === questionId){
+          if(userAnswer === questionData.correct_answer){
+            return {...questionData, userAnswer: userAnswer, isCorrect: true}
+        }else if (questionData.incorrect_answers.includes(userAnswer)){
+          return {...questionData, userAnswer: userAnswer, isCorrect:false}
         }
+      }
         return questionData
       })
 
     })
   }
+    
+
   console.log(questionsData)
   const questions = questionsData.map( questionData => {
-    const {correct_answer, incorrect_answers, question, userAnswer} = questionData
+    const {correct_answer, incorrect_answers, question, userAnswer, answers} = questionData
       return <Question 
         key={nanoid()}
         questionId={questionData.id}
         correctAnswer={correct_answer}
-        incorrectAnswers={incorrect_answers}
         question={question}
         handleClick={handleClick}
         userAnswer={userAnswer}
+        isOver={isOver}
+        answersData={answers}
       />
   })
   return(
@@ -62,7 +99,8 @@ function App() {
       {isStarted ?
       <div className='quiz'>
         {questions}
-        <button className='check' onClick={end}>Check answers</button>
+        <button className='check' onClick={end}>Check answer</button>
+        You scored {counter} of 5
       </div>
       :
       <div className='welcome-page'>

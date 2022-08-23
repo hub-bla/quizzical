@@ -5,23 +5,18 @@ import './styles/Question.css'
 function Question(props){
     //create array with random order of answers
     //then map over that array to create html elements for them
-    const [answersData, setAnswersData] = useState([props.correctAnswer, ...props.incorrectAnswers])
-    function shuffle(array) {
-        for (let i = array.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [array[i], array[j]] = [array[j], array[i]];
-        }
-        return array
-      }
+    
+    
 
-    useEffect(() => {
-        setAnswersData(prevAnswersData => shuffle(prevAnswersData))
-    }, [])
-
-    const answers = answersData.map(answer => {
-        return <p 
+    const answers = props.answersData.map(answer => {
+        return props.isOver ?
+                <p 
                 key={nanoid()}
-                id={nanoid()}
+                className={`answer ${answer === props.correctAnswer ? "correct" : (props.userAnswer === answer ? "incorrect" : "other")}`}
+                dangerouslySetInnerHTML={{__html: `${answer}`}} />
+            :
+            <p 
+                key={nanoid()}
                 className={`answer ${props.userAnswer === answer ? "user-answer" : ""}`}
                 onClick={() => {props.handleClick(event, props.questionId)}}
                 dangerouslySetInnerHTML={{__html: `${answer}`}} />
