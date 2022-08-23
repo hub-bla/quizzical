@@ -12,9 +12,10 @@ function App() {
   const [toggle, setToggle] = useState(false)
 
   function start(){
-    setCounter(0)
     setIsStarted(true)
-    setIsOver(false)
+  }
+
+  function newGame(){
     setToggle(!toggle)
   }
 
@@ -49,7 +50,11 @@ function App() {
             answers: shuffle([decode(q.correct_answer), ...wrongAnswers])
           }
         }))
+        setCounter(0)
+        setIsOver(false)
       })
+      
+      
   }, [toggle])
 
   function shuffle(array) {
@@ -80,7 +85,7 @@ function App() {
 
   console.log(questionsData)
   const questions = questionsData.map( questionData => {
-    const {correct_answer, incorrect_answers, question, userAnswer, answers} = questionData
+    const {correct_answer, question, userAnswer, answers} = questionData
       return <Question 
         key={nanoid()}
         questionId={questionData.id}
@@ -102,7 +107,7 @@ function App() {
          :
          <div className='summary'>
             <div className='score'>You scored {counter} of 5</div>
-            <button className='check' onClick={start}>Play again</button>
+            <button className='check' onClick={newGame}>Play again</button>
          </div>
         }
         
