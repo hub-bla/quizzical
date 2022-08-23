@@ -38,14 +38,15 @@ function App() {
         const {results} = data
         console.log(results)
         setQuestionsData(results.map(q =>{
+          const wrongAnswers = q.incorrect_answers.map(inAns => decode(inAns))
           return{
             ...q,
             id: nanoid(),
             correct_answer: decode(q.correct_answer),
-            incorrect_answers: q.incorrect_answers.map(inAns => decode(inAns)),
+            incorrect_answers: wrongAnswers,
             userAnswer: '',
             isCorrect: false,
-            answers: shuffle([q.correct_answer, ...q.incorrect_answers])
+            answers: shuffle([decode(q.correct_answer), ...wrongAnswers])
           }
         }))
       })
