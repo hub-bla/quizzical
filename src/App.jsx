@@ -50,6 +50,7 @@ function App() {
             answers: shuffle([decode(q.correct_answer), ...wrongAnswers])
           }
         }))
+        window.scrollTo(0, 0)
         setCounter(0)
         setIsOver(false)
       })
